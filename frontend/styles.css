@@ -1,0 +1,216 @@
+/* ======== RESET ======== */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  background: #f1f5f9;
+  color: #1a1a1a;
+}
+
+/* ======== SIDEBAR ======== */
+.sidebar {
+  width: 230px;
+  height: 100vh;
+  background: #0056a3;
+  color: white;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+}
+
+.sidebar a {
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background: #0072d3;
+}
+
+.sidebar .active {
+  background: #003f7f;
+  font-weight: bold;
+}
+
+/* ======== ÁREA PRINCIPAL ======== */
+.main {
+  margin-left: 250px;
+  padding: 30px;
+  width: calc(100% - 250px);
+}
+
+/* ======== TÍTULOS ======== */
+h1 {
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: #003f7f;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #003f7f;
+}
+
+/* ======== CARDS ======== */
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ======== UPLOAD BOX ======== */
+.upload-box {
+  border: 2px dashed #0056a3;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 15px;
+  cursor: pointer;
+  display: block;
+  color: #0056a3;
+  transition: 0.2s;
+}
+
+.upload-box:hover {
+  background: #e9f3ff;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px 18px;
+  border: none;
+  background: #0056a3;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #003f7f;
+}
+
+/* ======== KPI BOX ======== */
+.kpi-box {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.kpi-item {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.kpi-item strong {
+  color: #0056a3;
+  font-size: 16px;
+}
+
+.kpi-item span {
+  font-size: 18px;
+  font-weight: bold;
+  color: #002c52;
+}
+
+/* ======== TABELA ======== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+table th {
+  background: #0056a3;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+table tr:hover td {
+  background: #f0f7ff;
+}
+
+/* ======== FOOTER ======== */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  color: #7a7a7a;
+  font-size: 13px;
+}
+
+/* ======== RESPONSIVIDADE ======== */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main {
+    margin-left: 210px;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    position: static;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+    padding: 20px;
+  }
+
+  .kpi-box {
+    flex-direction: column;
+  }
+}
