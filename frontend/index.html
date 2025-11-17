@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GERDAU MVP - Upload & Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin:auto;}
+    .kpi { display:inline-block; padding:10px 15px; margin:8px; border-radius:6px; background:#f2f2f2;}
+    table { border-collapse: collapse; width:100%; margin-top:12px;}
+    table, th, td { border:1px solid #ddd; padding:8px;}
+  </style>
+</head>
+<body>
+  <h1>GERDAU — Sistema de Decisão (MVP)</h1>
+  <section>
+    <h2>1) Upload de planilha Excel</h2>
+    <input id="file" type="file" accept=".xlsx,.xls,.csv"/>
+    <button onclick="upload()">Enviar</button>
+    <div id="upload-result"></div>
+  </section>
+
+  <hr/>
+
+  <section>
+    <h2>2) Dashboard</h2>
+    <div id="kpis"></div>
+    <h3>Top 5 custos</h3>
+    <div id="top5"></div>
+    <h3>Evolução por período</h3>
+    <div id="evo"></div>
+  </section>
+
+<script>
+const API = "http://localhost:8000";
+
+async function upload(){
+  const f = document.getElementById("file").files[0];
+  if(!f){ alert("Selecione um arquivo"); return;}
+  const fd = new FormData();
+  fd.append("file", f);
+  const res = await fetch(API + "/upload-excel", { method:"POST", body: fd});
+  const j = await res.json();
+  document.getElementById("upload-result").innerText = JSON.stringify(j);
+  loadKpis();
+}
+
+async function loadKpis(){
+  const res = await fetch(API + "/kpis");
+  const j = await res.json();
+  const k = j.kpis || {};
+  document.getElementById("kpis").innerHTML = `
+    <div class="kpi"><strong>Total:</strong> R$ ${k.total || 0}</div>
+    <div class="kpi"><strong>Último período (valor):</strong> R$ ${k.last_period_value || 0}</div>
+    <div class="kpi"><strong>Variação vs prev (%):</strong> ${k.variation_pct_vs_prev ?? "N/A"}</div>
+  `;
+  const top5 = j.top5 || [];
+  document.getElementById("top5").innerHTML = "<table><tr><th>Tipo Custo</th><th>Valor</th></tr>" + top5.map(t => `<tr><td>${t.tipo_custo}</td><td>R$ ${t.valor}</td></tr>`).join("") + "</table>";
+  const evo = j.evolution || [];
+  document.getElementById("evo").innerHTML = "<table><tr><th>Período</th><th>Valor</th></tr>" + evo.map(r => `<tr><td>${r.periodo}</td><td>R$ ${r.valor}</td></tr>`).join("") + "</table>";
+}
+
+window.onload = loadKpis;
+</script>
+</body>
+</html>
