@@ -12,7 +12,7 @@ body {
   color: #1a1a1a;
 }
 
-/* ======== SIDEBAR ======== */
+/* SIDEBAR */
 .sidebar {
   width: 230px;
   height: 100vh;
@@ -52,14 +52,13 @@ body {
   font-weight: bold;
 }
 
-/* ======== ÁREA PRINCIPAL ======== */
+/* MAIN */
 .main {
   margin-left: 250px;
   padding: 30px;
   width: calc(100% - 250px);
 }
 
-/* ======== TÍTULOS ======== */
 h1 {
   font-size: 26px;
   margin-bottom: 25px;
@@ -72,7 +71,6 @@ h2 {
   color: #003f7f;
 }
 
-/* ======== CARDS ======== */
 .card {
   background: white;
   padding: 25px;
@@ -81,7 +79,6 @@ h2 {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* ======== UPLOAD BOX ======== */
 .upload-box {
   border: 2px dashed #0056a3;
   padding: 20px;
@@ -118,7 +115,6 @@ button:hover {
   background: #003f7f;
 }
 
-/* ======== KPI BOX ======== */
 .kpi-box {
   display: flex;
   gap: 18px;
@@ -145,7 +141,6 @@ button:hover {
   color: #002c52;
 }
 
-/* ======== TABELA ======== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -170,7 +165,6 @@ table tr:hover td {
   background: #f0f7ff;
 }
 
-/* ======== FOOTER ======== */
 .footer {
   text-align: center;
   margin-top: 40px;
@@ -178,8 +172,7 @@ table tr:hover td {
   font-size: 13px;
 }
 
-/* ======== RESPONSIVIDADE ======== */
-@media (max-width: 900px) {
+@media (max-width:900px) {
   .sidebar {
     width: 200px;
   }
@@ -189,7 +182,7 @@ table tr:hover td {
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width:700px) {
   body {
     flex-direction: column;
   }

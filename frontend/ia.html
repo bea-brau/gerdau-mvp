@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IA — Busca Inteligente</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<aside class="sidebar">
+<div class="logo"><img src="/mnt/data/WhatsApp Image 2025-11-03 at 16.31.56.jpeg" alt="GERDAU" style="width:120px; display:block; margin:0 auto 16px;"/></div>
+<a href="index.html">Dashboard</a>
+<a href="relatorios.html">Relatórios</a>
+<a href="ia.html" class="active">IA - Busca Inteligente</a>
+<a href="anomalias.html">Anomalias</a>
+<a href="previsoes.html">Previsões</a>
+<a href="configuracoes.html">Configurações</a>
+<a href="login.html">Sair / Login</a>
+</aside>
+<main class="main">
+<header class="topbar card"><h1>Busca Inteligente (NLP)</h1></header>
+
+
+<section class="card">
+<h2>Faça uma pergunta em português</h2>
+<input id="query" type="text" placeholder="Ex: Quais custos aumentaram no último trimestre?" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; margin-bottom:10px;" />
+<button onclick="buscar()">Buscar</button>
+<div id="resultado" style="margin-top:12px; color:#333;"></div>
+</section>
+
+
+<section class="card">
+<h2>Exemplos de perguntas</h2>
+<ul>
+<li>Mostre a evolução do custo de energia nos últimos 12 meses</li>
+<li>Compare custos por planta</li>
+<li>Identifique anomalias nos custos de produção</li>
+</ul>
+</section>
+
+
+<footer class="footer">© 2025 — MVP Gerdau</footer>
+</main>
+
+
+<script>
+async function buscar() {
+const q = document.getElementById('query').value.trim();
+const r = document.getElementById('resultado');
+if (!q) { r.textContent = 'Digite uma pergunta.'; return; }
+r.textContent = 'Buscando...';
+// função mock — integre com NLP endpoint depois
+setTimeout(() => { r.innerHTML = '<strong>Resultado (mock):</strong><br> Energia aumentou 18.3% no último trimestre.'; }, 800);
+}
+</script>
+</body>
+</html>

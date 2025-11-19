@@ -1,154 +1,69 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GERDAU – Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+</div>
+</section>
 
-<body>
 
-    <!-- ======== SIDEBAR ======== -->
-    <aside class="sidebar">
-        <div class="logo">GERDAU</div>
+<section class="card">
+<h2>Evolução de Custos (últimos 3 meses)</h2>
+<div id="chart-placeholder" style="height:260px; display:flex; align-items:center; justify-content:center; color:#777;">[Gráfico — substitua por ECharts/D3]</div>
+</section>
 
-        <a href="#" class="active">Dashboard</a>
-        <a href="#">Relatórios</a>
-        <a href="#">Construtor de Relatórios</a>
-        <a href="#">IA – Busca Inteligente</a>
-        <a href="#">Anomalias</a>
-        <a href="#">Previsões</a>
-        <a href="#">Configurações</a>
-    </aside>
 
-    <!-- ======== ÁREA PRINCIPAL ======== -->
-    <main class="main">
+<section class="card">
+<h2>Top 5 Custos</h2>
+<table>
+<thead>
+<tr><th>Tipo</th><th>Valor (R$)</th></tr>
+</thead>
+<tbody id="top5-body"><tr><td colspan="2">Nenhum dado</td></tr></tbody>
+</table>
+</section>
 
-        <!-- ======== TÍTULO ======== -->
-        <h1>Dashboard</h1>
 
-        <!-- ======== CARD DE UPLOAD ======== -->
-        <div class="card">
-            <h2>Enviar arquivo de produção</h2>
-            <label class="upload-box" for="fileInput">
-                Clique aqui para enviar um arquivo Excel (.xlsx)
-            </label>
-            <input type="file" id="fileInput" accept=".xlsx">
+<footer class="footer">© 2025 — MVP Gerdau (protótipo acadêmico)</footer>
+</main>
 
-            <button onclick="enviarArquivo()">Enviar</button>
 
-            <p id="status" style="margin-top: 15px; color: #005fa3;"></p>
-        </div>
+<script>
+const API = "https://gerdau-mvp-backend.onrender.com"; // backend base URL (already set)
 
-        <!-- ======== KPIS ======== -->
-        <div class="kpi-box">
-            <div class="kpi-item">
-                <strong>Custo Total</strong><br>
-                <span id="kpi-custo">R$ —</span>
-            </div>
 
-            <div class="kpi-item">
-                <strong>Custo Unitário</strong><br>
-                <span id="kpi-unitario">R$ —</span>
-            </div>
+document.querySelector('.upload-box').addEventListener('click', () => document.getElementById('fileInput').click());
 
-            <div class="kpi-item">
-                <strong>Variação</strong><br>
-                <span id="kpi-variacao">— %</span>
-            </div>
 
-            <div class="kpi-item">
-                <strong>Anomalias Encontradas</strong><br>
-                <span id="kpi-anomalias">0</span>
-            </div>
-        </div>
+async function enviarArquivo() {
+const input = document.getElementById('fileInput');
+const status = document.getElementById('status');
+if (!input.files.length) { status.textContent = 'Selecione um arquivo primeiro.'; return; }
+const fd = new FormData(); fd.append('file', input.files[0]);
+status.textContent = 'Enviando...';
+try {
+const res = await fetch(`${API}/upload-excel`, { method: 'POST', body: fd });
+const j = await res.json();
+status.textContent = `Processado: ${j.rows} linhas`; // backend returns rows
+await carregarKpis();
+} catch (e) { console.error(e); status.textContent = 'Erro ao enviar arquivo.'; }
+}
 
-        <!-- ======== TABELA DE RESULTADOS ======== -->
-        <div class="card">
-            <h2>Resultados</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Mês</th>
-                        <th>Custo Total (R$)</th>
-                        <th>Custo Unitário (R$)</th>
-                        <th>Variação (%)</th>
-                    </tr>
-                </thead>
-                <tbody id="tabela-resultados">
-                    <tr><td colspan="4">Nenhum dado carregado</td></tr>
-                </tbody>
-            </table>
-        </div>
 
-        <div class="footer">
-            © 2025 – MVP Gerdau (Protótipo acadêmico)
-        </div>
+async function carregarKpis() {
+try {
+const res = await fetch(`${API}/kpis`);
+const j = await res.json();
+// preencher KPIs
+document.getElementById('kpi-total').textContent = j.kpis?.total ? `R$ ${Number(j.kpis.total).toLocaleString('pt-BR')}` : 'R$ —';
+document.getElementById('kpi-anomalias').textContent = (j.top5||[]).length ? j.top5.length : 0;
+// top5 tabela
+const top5 = j.top5 || [];
+const tbody = document.getElementById('top5-body'); tbody.innerHTML = '';
+if (!top5.length) { tbody.innerHTML = '<tr><td colspan="2">Nenhum dado</td></tr>'; }
+else { top5.forEach(r => { tbody.innerHTML += `<tr><td>${r.tipo_custo}</td><td>R$ ${Number(r.valor).toLocaleString('pt-BR')}</td></tr>`; }); }
+} catch (e) { console.error(e); }
+}
 
-    </main>
 
-    <!-- ======== SCRIPT PARA ENVIO AO BACKEND ======== -->
-    <script>
-        const API_URL = "https://gerdau-mvp-backend.onrender.com/process";
-
-        async function enviarArquivo() {
-            const fileInput = document.getElementById("fileInput");
-            const status = document.getElementById("status");
-
-            if (!fileInput.files.length) {
-                status.textContent = "Selecione um arquivo antes de enviar.";
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
-
-            status.innerHTML = "Enviando arquivo...";
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    throw new Error("Erro ao processar arquivo.");
-                }
-
-                const data = await response.json();
-                status.innerHTML = "Arquivo processado com sucesso!";
-
-                atualizarDashboard(data);
-
-            } catch (error) {
-                status.innerHTML = "Erro ao enviar arquivo.";
-            }
-        }
-
-        /* ====== Preenche os dados retornados pela API ====== */
-        function atualizarDashboard(data) {
-            document.getElementById("kpi-custo").textContent = `R$ ${data.total_cost}`;
-            document.getElementById("kpi-unitario").textContent = `R$ ${data.unit_cost}`;
-            document.getElementById("kpi-variacao").textContent = `${data.variation}%`;
-            document.getElementById("kpi-anomalias").textContent = data.anomalies;
-
-            const tabela = document.getElementById("tabela-resultados");
-            tabela.innerHTML = "";
-
-            data.months.forEach(item => {
-                const linha = `
-                    <tr>
-                        <td>${item.mes}</td>
-                        <td>R$ ${item.custo_total}</td>
-                        <td>R$ ${item.custo_unitario}</td>
-                        <td>${item.variacao}%</td>
-                    </tr>
-                `;
-                tabela.innerHTML += linha;
-            });
-        }
-    </script>
-
+// carregar KPIs ao abrir
+carregarKpis();
+</script>
 </body>
 </html>
