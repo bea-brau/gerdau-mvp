@@ -12,13 +12,14 @@
 <img src="/mnt/data/WhatsApp Image 2025-11-03 at 16.31.56.jpeg" alt="logo" style="width:140px; display:block; margin: 0 auto 16px;"/>
 <h2>Entrar</h2>
 <p>Use sua conta corporativa para acessar o sistema</p>
-<form onsubmit="event.preventDefault(); fakeLogin();">
-<label>Email</label>
-<input type="email" id="email" placeholder="seu@empresa.com" required />
-<label>Senha</label>
-<input type="password" id="senha" placeholder="********" required />
-<button type="submit">Entrar</button>
+<form onsubmit="event.preventDefault(); window.location.href='index.html';">
+  <label>Email</label>
+  <input type="email" required>
+  <label>Senha</label>
+  <input type="password" required>
+  <button class="btn" type="submit">Entrar</button>
 </form>
+
 <p style="margin-top:12px; font-size:13px; color:#666;">(Login simulado — use para demo)</p>
 </div>
 </div>

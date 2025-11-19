@@ -8,8 +8,41 @@
   <meta http-equiv="refresh" content="0; URL=./login.html">
 </head>
 <body>
-  <div style="display:flex;min-height:100vh;align-items:center;justify-content:center;">
-    <div class="card">Redirecionando para <a href="./login.html">login</a>…</div>
-  </div>
+  <aside class="sidebar">
+  <div class="logo"><img src="./logo.png" alt="GERDAU" style="width:120px; display:block; margin:0 auto 12px;"></div>
+  <a href="index.html" class="active">Dashboard</a>
+  <a href="relatorios.html">Relatórios</a>
+  <a href="ia.html">IA - Busca Inteligente</a>
+  <a href="anomalias.html">Anomalias</a>
+  <a href="previsoes.html">Previsões</a>
+  <a href="configuracoes.html">Configurações</a>
+  <a href="login.html">Sair / Login</a>
+</aside>
+<main class="main">
+  <header class="topbar card"><h1>Dashboard</h1></header>
+
+  <section class="card">
+    <h2>Upload de planilha</h2>
+    <label class="upload-box" for="fileInput">Clique para selecionar um .xlsx</label>
+    <input id="fileInput" type="file" accept=".xlsx" style="display:none;">
+    <button onclick="enviarArquivo()">Enviar</button>
+    <p id="status"></p>
+  </section>
+
+  <section class="kpi-box">
+    <div class="kpi-item card"><small>Total</small><strong id="kpi-total">R$ —</strong></div>
+    <div class="kpi-item card"><small>Energia</small><strong id="kpi-energia">R$ —</strong></div>
+    <div class="kpi-item card"><small>Mão de obra</small><strong id="kpi-mo">R$ —</strong></div>
+    <div class="kpi-item card"><small>Anomalias</small><strong id="kpi-anomalias">0</strong></div>
+  </section>
+
+  <section class="card">
+    <h2>Top 5 Custos</h2>
+    <div id="top5-placeholder">Nenhum dado</div>
+  </section>
+
+  <footer class="footer">© 2025 — MVP Gerdau</footer>
+</main>
+
 </body>
 </html>
