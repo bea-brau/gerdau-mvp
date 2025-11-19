@@ -1,69 +1,15 @@
-<!DOCTYPE html>
-</div>
-</section>
-
-
-<section class="card">
-<h2>Evolução de Custos (últimos 3 meses)</h2>
-<div id="chart-placeholder" style="height:260px; display:flex; align-items:center; justify-content:center; color:#777;">[Gráfico — substitua por ECharts/D3]</div>
-</section>
-
-
-<section class="card">
-<h2>Top 5 Custos</h2>
-<table>
-<thead>
-<tr><th>Tipo</th><th>Valor (R$)</th></tr>
-</thead>
-<tbody id="top5-body"><tr><td colspan="2">Nenhum dado</td></tr></tbody>
-</table>
-</section>
-
-
-<footer class="footer">© 2025 — MVP Gerdau (protótipo acadêmico)</footer>
-</main>
-
-
-<script>
-const API = "https://gerdau-mvp-backend.onrender.com"; // backend base URL (already set)
-
-
-document.querySelector('.upload-box').addEventListener('click', () => document.getElementById('fileInput').click());
-
-
-async function enviarArquivo() {
-const input = document.getElementById('fileInput');
-const status = document.getElementById('status');
-if (!input.files.length) { status.textContent = 'Selecione um arquivo primeiro.'; return; }
-const fd = new FormData(); fd.append('file', input.files[0]);
-status.textContent = 'Enviando...';
-try {
-const res = await fetch(`${API}/upload-excel`, { method: 'POST', body: fd });
-const j = await res.json();
-status.textContent = `Processado: ${j.rows} linhas`; // backend returns rows
-await carregarKpis();
-} catch (e) { console.error(e); status.textContent = 'Erro ao enviar arquivo.'; }
-}
-
-
-async function carregarKpis() {
-try {
-const res = await fetch(`${API}/kpis`);
-const j = await res.json();
-// preencher KPIs
-document.getElementById('kpi-total').textContent = j.kpis?.total ? `R$ ${Number(j.kpis.total).toLocaleString('pt-BR')}` : 'R$ —';
-document.getElementById('kpi-anomalias').textContent = (j.top5||[]).length ? j.top5.length : 0;
-// top5 tabela
-const top5 = j.top5 || [];
-const tbody = document.getElementById('top5-body'); tbody.innerHTML = '';
-if (!top5.length) { tbody.innerHTML = '<tr><td colspan="2">Nenhum dado</td></tr>'; }
-else { top5.forEach(r => { tbody.innerHTML += `<tr><td>${r.tipo_custo}</td><td>R$ ${Number(r.valor).toLocaleString('pt-BR')}</td></tr>`; }); }
-} catch (e) { console.error(e); }
-}
-
-
-// carregar KPIs ao abrir
-carregarKpis();
-</script>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GERDAU — Redirecionando</title>
+  <link rel="stylesheet" href="./styles.css">
+  <meta http-equiv="refresh" content="0; URL=./login.html">
+</head>
+<body>
+  <div style="display:flex;min-height:100vh;align-items:center;justify-content:center;">
+    <div class="card">Redirecionando para <a href="./login.html">login</a>…</div>
+  </div>
 </body>
 </html>
